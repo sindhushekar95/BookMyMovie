@@ -1,0 +1,39 @@
+.dFlex{
+    display: flex;
+}
+.alignCenter{
+    align-items: center;
+}
+.justifyCenter{
+    justify-content: center;
+}
+.flexColumn{
+    flex-direction: column;
+}
+.p15{
+    padding: 15px;
+}
+.mb15{
+    margin-bottom: 15px;
+}
+.mlAuto{
+    margin-left: auto !important;
+}
+.ReactModal__Overlay{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reactModalCustom{
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    padding: 20px;
+}
+.bgNone{
+    background-color: transparent !important;
+}
+.boxShadowNone{
+    box-shadow: none !important;
+}
