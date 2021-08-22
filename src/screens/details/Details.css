@@ -7,7 +7,9 @@
 }
 .leftSection, .rightSection{
     width: 20%;
+    margin: 16px;
 }
 .middleSection{
     width: 80%;
+    margin: 16px;
 }

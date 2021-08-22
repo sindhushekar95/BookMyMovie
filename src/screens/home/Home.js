@@ -12,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Header from '../../common/header/Header';
+import { useHistory } from 'react-router-dom';
 import './Home.css';
 
 const Home = (props) => {
@@ -20,6 +21,8 @@ const Home = (props) => {
     const [upcomingMovies, setUpcomingMovies] = useState([]);
     const [releasedMovies, setReleasedMovies] = useState([]);
     const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    const history = useHistory();
+    const handleMovieClick = (id) => history.push(`/details/${id}`);
 
     useEffect(() => {
 
@@ -56,7 +59,7 @@ const Home = (props) => {
                 <div className="releasedMovie">
                     <GridList cellHeight={350} cols={4}>
                         {releasedMovies.map(movie => (
-                            <GridListTile key={movie.id}>
+                            <GridListTile key={movie.id} onClick={() => handleMovieClick(movie.id)}>
                                 <img src={movie.poster_url} alt={movie.title} />
                                 <GridListTileBar
                                     title={movie.title}
@@ -80,7 +83,6 @@ const Home = (props) => {
                                     <FormControl>
                                         <InputLabel id="demo-simple-select-label">Genres</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                         >
                                             <MenuItem value={10}>Ten</MenuItem>
@@ -93,7 +95,6 @@ const Home = (props) => {
                                     <FormControl>
                                         <InputLabel id="demo-simple-select-label">Artist</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                         >
                                             <MenuItem value={10}>Ten</MenuItem>
