@@ -88,21 +88,21 @@ const Header = () => {
                 <TabPanel value={value} index={1}>
                     <form className="dFlex alignCenter justifyCenter flexColumn p15">
                         <div className="mb15">
-                            <TextField id="firstName" required label="First Name" />
+                            <TextField id="firstName" validations={["required"]} helperText="required" label="First Name" />
                         </div>
                         <div className="mb15">
-                            <TextField id="lastName" required label="Last Name" />
+                            <TextField id="lastName" validations={["required"]} helperText="required" label="Last Name" />
                         </div>
                         <div className="mb15">
-                            <TextField id="email" required label="Email" type="email" />
+                            <TextField id="email" validations={["required"]} helperText="required" label="Email" type="email" />
                         </div>
                         <div className="mb15">
-                            <TextField id="password" required label="Password" type="password" />
+                            <TextField id="password" validations={["required"]} helperText="required" label="Password" type="password" />
                         </div>
                         <div className="mb15">
-                            <TextField id="contact" required label="Contact No." type="number" />
+                            <TextField id="contact" validations={["required"]} helperText="required" label="Contact No." type="number" />
                         </div>
-                        <Button variant="contained" color="primary">Register</Button>
+                        <Button variant="contained" color="primary" type="submit">Register</Button>
                     </form>
                 </TabPanel>
                 {/* <button onClick={handleLoginClose}>Close Modal</button> */}

@@ -37,3 +37,6 @@
 .boxShadowNone{
     box-shadow: none !important;
 }
+.noWrap{
+    flex-wrap: nowrap !important;
+}
