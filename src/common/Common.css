@@ -46,3 +46,12 @@
 .my16{
     margin: 16px 0 !important;
 }
+.dBlock{
+    display: block;
+}
+.dNone{
+    display: none;
+}
+.formControl.MuiFormControl-root{
+    margin-bottom: 15px;
+}
