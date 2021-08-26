@@ -37,8 +37,9 @@
 .boxShadowNone{
     box-shadow: none !important;
 }
-.noWrap{
-    flex-wrap: nowrap !important;
+.noWrap.MuiGridList-root{
+    flex-wrap: nowrap;
+    margin: -2px 0 !important;
 }
 .mt16{
     margin-top: 16px !important;
@@ -54,4 +55,7 @@
 }
 .formControl.MuiFormControl-root{
     margin-bottom: 15px;
+}
+.w100{
+    width: 100%;
 }
