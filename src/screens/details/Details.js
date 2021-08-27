@@ -40,8 +40,8 @@ const Details = () => {
     }, []);
 
     return (
-        <div>
-            <Header></Header>
+        <div> 
+            <Header id={id}></Header>
             <Typography className='backButton' onClick={handleBackClick}>
                 &lt; Back to Home
             </Typography>

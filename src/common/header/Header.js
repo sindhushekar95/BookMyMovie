@@ -9,6 +9,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Typography from '@material-ui/core/Typography';
+import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.svg';
 import "./Header.css";
@@ -39,7 +40,9 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-const Header = () => {
+const Header = (props) => {
+    let location = useLocation();
+    let history = useHistory();
     const baseUrl = "http://localhost:8085/api/v1/";
     const [openModal, setOpenModal] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -70,11 +73,18 @@ const Header = () => {
     const [loginMessage, setLoginMessage] = useState("");
 
     const [login, setShowLogin] = useState(false);
+    const [showBook, setShowBook] = useState(false);
+
+
 
     useEffect(() => {
-        if (sessionStorage.getItem("user")) {
+        if (sessionStorage.getItem("access-token")) {
             setShowLogin(true);
         };
+
+        if (location.pathname.includes('/details')) {
+            setShowBook(true);
+        }
     }, []);
 
     const handleLogin = () => {
@@ -210,8 +220,9 @@ const Header = () => {
                 if (result.code === "USR-002") {
                     setLoginMessage("Username does not exist. Please Register !")
                 } else {
+                    let token = rawResponse.headers.get('access-token');
                     setOpenModal(false);
-                    sessionStorage.setItem("user", result);
+                    sessionStorage.setItem("access-token", token);
                     setShowLogin(true);
                 }
             } catch (error) {
@@ -223,20 +234,29 @@ const Header = () => {
     const handleLogout = () => {
         setShowLogin(false);
         sessionStorage.clear();
+        history.push('/');
+    }
+
+    const bookShowHandler = () => {
+        if (login) {
+            history.push(`/bookshow/${props.id}`);
+        } else {
+            setOpenModal(true);
+        }
     }
 
     return (
         <div className="headerBar dFlex alignCenter">
             <img src={logo} className="appLogo" alt="logo" />
+            {showBook &&
+                <Button variant="contained" className="mlAuto" color="primary" onClick={bookShowHandler}>Book Show</Button>
+            }
             {!login &&
-                <Button variant="contained" className="mlAuto" color="default" onClick={handleLogin}>Login</Button>
+                <Button variant="contained" className={showBook ? 'ml15' : 'mlAuto'} color="default" onClick={handleLogin}>Login</Button>
             }
             {login &&
-                <Button variant="contained" className="mlAuto" color="default" onClick={handleLogout}>Logout</Button>
+                <Button variant="contained" className={showBook ? 'ml15' : 'mlAuto'} color="default" onClick={handleLogout}>Logout</Button>
             }
-            {/* {isBookShow &&
-                <Button variant="contained" color="primary">Book Show</Button>
-            } */}
             <Modal
                 isOpen={openModal}
                 contentLabel="Minimal Modal Example" ariaHideApp={false} className="reactModalCustom"
