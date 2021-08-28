@@ -92,6 +92,7 @@ const Details = (props) => {
                         <b>Rate this movie: </b>
                     </Typography>
                     <Rating
+                        name="unique-rating"
                         defaultValue={4}
                         precision={0.5}
                         icon={<StarBorderIcon fontSize="inherit" />}
