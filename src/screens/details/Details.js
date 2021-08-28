@@ -44,6 +44,7 @@ const Details = (props) => {
             })
     }, []);
 
+
     return (
         <div>
             <Header id={id} baseUrl={props.baseUrl}></Header>
@@ -60,7 +61,7 @@ const Details = (props) => {
                     </Typography>
                     <Typography>
                         <b>Genre: </b>
-                        {selectedMovie.genres}
+                        {String(selectedMovie.genres).toString().split(',').join(', ')}
                     </Typography>
                     <Typography>
                         <b>Duration: </b>
@@ -76,7 +77,7 @@ const Details = (props) => {
                     </Typography>
                     <Typography className="mt16">
                         <b>Plot: </b>
-                        <Link href={selectedMovie.wiki_url} underline="always" target="_blank">
+                        <Link className="mr15" href={selectedMovie.wiki_url} underline="always" target="_blank">
                             (Wiki Link)
                         </Link>
                         {selectedMovie.storyline}
