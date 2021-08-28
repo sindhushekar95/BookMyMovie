@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import logo from '../../assets/logo.svg';
 import "./Header.css";
 
+/*Tab Functionality*/
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -43,11 +44,12 @@ TabPanel.propTypes = {
 const Header = (props) => {
     let location = useLocation();
     let history = useHistory();
-    const baseUrl = "http://localhost:8085/api/v1/";
+
+    /*Use States*/
     const [openModal, setOpenModal] = React.useState(false);
+
     const [value, setValue] = React.useState(0);
 
-    /*Form States*/
     const [firstName, setFirstName] = useState("");
     const [errorFirstName, setErrorFirstName] = useState("");
 
@@ -75,8 +77,6 @@ const Header = (props) => {
     const [login, setShowLogin] = useState(false);
     const [showBook, setShowBook] = useState(false);
 
-
-
     useEffect(() => {
         if (sessionStorage.getItem("access-token")) {
             setShowLogin(true);
@@ -87,14 +87,17 @@ const Header = (props) => {
         }
     }, []);
 
+    /*Login button click*/
     const handleLogin = () => {
         setOpenModal(true);
     };
 
+    /*Tab change click*/
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    /*Change handlers for form data*/
     const inputFirstChangeHandler = (event) => {
         let data = event.target.value;
         if (data) {
@@ -158,6 +161,7 @@ const Header = (props) => {
             setErrorNo(true);
     };
 
+    /*Register button click*/
     const registerButtonHandler = async () => {
 
         firstName === "" ? setErrorFirstName(true) : setErrorFirstName(false);
@@ -177,7 +181,7 @@ const Header = (props) => {
                 "password": pwd
             };
             try {
-                const rawResponse = await fetch(baseUrl + "signup", {
+                const rawResponse = await fetch(props.baseUrl + "signup", {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -186,26 +190,25 @@ const Header = (props) => {
                     body: JSON.stringify(details)
                 });
                 const data = await rawResponse.json();
-                console.log(data);
                 if (data.code === "USR-009") {
                     setRegisterMessage("User already exists. Please Login!");
                 } else {
                     setRegisterMessage("Registration Successful. Please Login!");
                 }
             } catch (error) {
-                console.log(error);
             }
         }
     }
 
+    /*Login button click*/
     const loginButtonHandler = async () => {
 
         userName === "" ? setErrorUserName(true) : setErrorUserName(false);
         password === "" ? setErrorPassword(true) : setErrorPassword(false);
 
         if (userName === "" || password === "") {
+            return;
         } else {
-            console.log(window.btoa(userName + ":" + password));
             const requestOptions = {
                 method: 'POST',
                 headers: {
@@ -215,28 +218,35 @@ const Header = (props) => {
                 }
             }
             try {
-                const rawResponse = await fetch(baseUrl + "auth/login", requestOptions);
+                const rawResponse = await fetch(props.baseUrl + "auth/login", requestOptions);
                 const result = await rawResponse.json();
                 if (result.code === "USR-002") {
                     setLoginMessage("Username does not exist. Please Register !")
-                } else {
+                } else if (result.code === "USR-003") {
+                    setLoginMessage("Incorrect password entered.")
+                } else if (result.code === "USR-007") {
+                    setLoginMessage("User account is locked.")
+                }
+                else {
                     let token = rawResponse.headers.get('access-token');
                     setOpenModal(false);
                     sessionStorage.setItem("access-token", token);
                     setShowLogin(true);
                 }
             } catch (error) {
-
+                console.log(error);
             }
         }
     }
 
+    /*Logout button click*/
     const handleLogout = () => {
         setShowLogin(false);
         sessionStorage.clear();
         history.push('/');
     }
 
+    /*Book show button click*/
     const bookShowHandler = () => {
         if (login) {
             history.push(`/bookshow/${props.id}`);

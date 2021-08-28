@@ -11,20 +11,26 @@ import Link from '@material-ui/core/Link';
 import Header from "../../common/header/Header";
 import "./Details.css";
 
-const Details = () => {
-
-    const baseUrl = "http://localhost:8085/api/v1/";
+const Details = (props) => {
+    /*Use States*/
     const [selectedMovie, setSelectedMovie] = useState([]);
+
     const [artists, setArtists] = useState([]);
+
     const [videoCode, setVideoCode] = useState("");
+
     const history = useHistory();
-    const handleBackClick = () => history.push('/');
-    const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+
     const { id } = useParams();
+
+    /*Back click handler*/
+    const handleBackClick = () => {
+        history.push('/');
+    }
 
     useEffect(() => {
 
-        fetch(baseUrl + `movies/${id}`, {
+        fetch(props.baseUrl + `movies/${id}`, {
             method: "GET",
             headers: {
                 "Accept": "application/json;charset=UTF-8"
@@ -35,13 +41,12 @@ const Details = () => {
                 setSelectedMovie(response);
                 setArtists(response.artists);
                 setVideoCode(response.trailer_url.split("v=")[1].split("&")[0]);
-                console.log(response);
             })
     }, []);
 
     return (
-        <div> 
-            <Header id={id}></Header>
+        <div>
+            <Header id={id} baseUrl={props.baseUrl}></Header>
             <Typography className='backButton' onClick={handleBackClick}>
                 &lt; Back to Home
             </Typography>
@@ -63,7 +68,7 @@ const Details = () => {
                     </Typography>
                     <Typography>
                         <b>Release Date: </b>
-                        {new Date(selectedMovie.release_date).toLocaleDateString('en-US', DATE_OPTIONS)}
+                        {new Date(selectedMovie.release_date).toDateString()}
                     </Typography>
                     <Typography>
                         <b>Rating: </b>
@@ -89,21 +94,21 @@ const Details = () => {
                         defaultValue={4}
                         precision={0.5}
                         icon={<StarBorderIcon fontSize="inherit" />}
-                        emptyIcon={<StarBorderIcon fontSize="inherit" color="action" />}
+                        emptyIcon={<StarBorderIcon fontSize="inherit" className="colorBlack" />}
                     />
                     <Typography className="my16">
                         <b>Artists: </b>
                     </Typography>
-                    {artists.map(artist =>
-                        <GridList cols={2}>
+                    <GridList cols={2}>
+                        {artists.map(artist =>
                             <GridListTile key={artist.id}>
                                 <img src={artist.profile_url} alt={artist.profile_url} />
                                 <GridListTileBar
                                     title={`${artist.first_name} ${artist.last_name}`}
                                 />
                             </GridListTile>
-                        </GridList>
-                    )}
+                        )}
+                    </GridList>
                 </div>
             </div>
         </div>
